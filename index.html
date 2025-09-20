@@ -23,10 +23,15 @@
       padding: 20px;
       text-align: center;
       max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     svg {
       width: 200px;
       height: 200px;
+      display: block;
+      margin: 0 auto;
     }
     button {
       background: #facc15;
@@ -37,7 +42,7 @@
       font-size: 1rem;
       color: white;
       font-weight: bold;
-      margin: 10px;
+      margin: 5px;
       transition: transform 0.2s ease;
     }
     button:hover {
@@ -48,41 +53,44 @@
       margin-top: 10px;
       color: #a16207;
       font-weight: 500;
-      white-space: pre-wrap;
-      min-height: 50px;
-      display: none; /* 🔴 IMPORTANTE: OCULTO DESDE EL INICIO */
+      display: none;
+      white-space: pre-line;
+      max-width: 90%;
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
   <div class="card">
     <h2>Flores Amarillas — Para 
-      <input id="recipientInput" placeholder="Yacory" style="border:none;border-bottom:1px solid #ccc;text-align:center;">
+      <input id="recipientInput" placeholder="Yacory" 
+      style="border:none;border-bottom:1px solid #ccc;text-align:center;">
     </h2>
+
     <svg viewBox="0 0 200 200">
-      <!-- tallo -->
       <rect x="96" y="110" width="8" height="70" rx="4" fill="#3b7a3b"></rect>
-      <!-- hojas -->
       <path d="M100 140 C70 130, 60 120, 70 110 C80 100, 95 115, 100 140" fill="#2f6b2f"></path>
       <path d="M104 140 C134 130, 144 120, 134 110 C124 100, 109 115, 104 140" fill="#2f6b2f"></path>
-      <!-- flores -->
       <g id="flowers"></g>
     </svg>
 
-    <!-- 🔴 AHORA SIN TEXTO PREDEFINIDO -->
     <p id="message"></p>
 
-    <!-- Caja de texto inicial -->
-    <textarea id="customMsg" 
-    style="width:100%;height:100px;margin:5px 0;padding:5px;text-align:center;resize:none;">Quiero que sepas que para mi eres una chica genial, eres muy alegre y energetica... me alegra el haber podido hablar contigo, aunque sea por este corto periodo, quiero desearte un feliz inicio de primavera, no te rindas y mantente determinada, te amo mucho... cuídate 💖</textarea>
-
-    <button onclick="sendFlowers()">Dar flores 💐</button>
-    <button onclick="resetFlowers()">Reset</button>
+    <div class="buttons">
+      <button onclick="sendFlowers()">Dar flores 💐</button>
+      <button onclick="resetFlowers()">Reset</button>
+    </div>
   </div>
 
   <script>
     const flowers = document.getElementById('flowers');
-    const messageEl = document.getElementById("message");
+    const messageEl = document.getElementById('message');
+    const fullMessage = "Quiero que sepas que para mi eres una chica genial, eres muy alegre y energetica... me alegra el haber podido hablar contigo, aunque sea por este corto periodo, quiero desearte un feliz inicio de primavera, no te rindas y mantente determinada, te amo mucho... cuídate 💖";
 
     function createFlower(cx, cy) {
       const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -106,7 +114,7 @@
       return group;
     }
 
-    function typeWriter(text, element, delay = 30) {
+    function typeWriter(text, element, delay = 40) {
       element.textContent = "";
       let i = 0;
       function typing() {
@@ -125,28 +133,21 @@
         flowers.appendChild(createFlower(x, y));
       });
 
-      let name = document.getElementById("recipientInput").value || "Mi querida 🌻";
-      let msg = document.getElementById("customMsg").value || "¡Listo! Le diste flores 🌻";
-
-      document.getElementById("customMsg").style.display = "none";
-
-      messageEl.style.display = "block"; // 🔴 AHORA SE MUESTRA SOLO AQUÍ
-      typeWriter(msg + " — Para " + name, messageEl);
+      messageEl.style.display = "block";
+      typeWriter(fullMessage, messageEl, 40);
 
       confetti({
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 }
       });
-
       new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3').play();
     }
 
     function resetFlowers() {
       flowers.innerHTML = '';
       messageEl.textContent = '';
-      messageEl.style.display = "none"; // 🔴 SE VUELVE A OCULTAR
-      document.getElementById("customMsg").style.display = "block";
+      messageEl.style.display = "none";
     }
   </script>
 </body>
