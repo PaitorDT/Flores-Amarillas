@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flores Amarillas 🌻</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #fff9e6, #fff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      max-width: 400px;
+    }
+    svg {
+      width: 200px;
+      height: 200px;
+    }
+    button {
+      background: #facc15;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      color: white;
+      font-weight: bold;
+      margin: 10px;
+      transition: transform 0.2s ease;
+    }
+    button:hover {
+      background: #eab308;
+      transform: scale(1.05);
+    }
+    #message {
+      margin-top: 10px;
+      color: #a16207;
+      font-weight: 500;
+      white-space: pre-wrap;
+      min-height: 50px;
+      display: none; /* 🔴 IMPORTANTE: OCULTO DESDE EL INICIO */
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Flores Amarillas — Para 
+      <input id="recipientInput" placeholder="Yacory" style="border:none;border-bottom:1px solid #ccc;text-align:center;">
+    </h2>
+    <svg viewBox="0 0 200 200">
+      <!-- tallo -->
+      <rect x="96" y="110" width="8" height="70" rx="4" fill="#3b7a3b"></rect>
+      <!-- hojas -->
+      <path d="M100 140 C70 130, 60 120, 70 110 C80 100, 95 115, 100 140" fill="#2f6b2f"></path>
+      <path d="M104 140 C134 130, 144 120, 134 110 C124 100, 109 115, 104 140" fill="#2f6b2f"></path>
+      <!-- flores -->
+      <g id="flowers"></g>
+    </svg>
+
+    <!-- 🔴 AHORA SIN TEXTO PREDEFINIDO -->
+    <p id="message"></p>
+
+    <!-- Caja de texto inicial -->
+    <textarea id="customMsg" 
+    style="width:100%;height:100px;margin:5px 0;padding:5px;text-align:center;resize:none;">Quiero que sepas que para mi eres una chica genial, eres muy alegre y energetica... me alegra el haber podido hablar contigo, aunque sea por este corto periodo, quiero desearte un feliz inicio de primavera, no te rindas y mantente determinada, te amo mucho... cuídate 💖</textarea>
+
+    <button onclick="sendFlowers()">Dar flores 💐</button>
+    <button onclick="resetFlowers()">Reset</button>
+  </div>
+
+  <script>
+    const flowers = document.getElementById('flowers');
+    const messageEl = document.getElementById("message");
+
+    function createFlower(cx, cy) {
+      const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      group.setAttribute('transform', `translate(${cx},${cy})`);
+      for (let p = 0; p < 8; p++) {
+        const angle = (p / 8) * Math.PI * 2;
+        const px = Math.cos(angle) * 14;
+        const py = Math.sin(angle) * 10;
+        const petal = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+        petal.setAttribute('cx', px);
+        petal.setAttribute('cy', py);
+        petal.setAttribute('rx', '10');
+        petal.setAttribute('ry', '6');
+        petal.setAttribute('fill', '#FFD54A');
+        group.appendChild(petal);
+      }
+      const center = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      center.setAttribute('r', '6');
+      center.setAttribute('fill', '#6b3b1b');
+      group.appendChild(center);
+      return group;
+    }
+
+    function typeWriter(text, element, delay = 30) {
+      element.textContent = "";
+      let i = 0;
+      function typing() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(typing, delay);
+        }
+      }
+      typing();
+    }
+
+    function sendFlowers() {
+      flowers.innerHTML = '';
+      [[40,70],[100,50],[160,70]].forEach(([x,y]) => {
+        flowers.appendChild(createFlower(x, y));
+      });
+
+      let name = document.getElementById("recipientInput").value || "Mi querida 🌻";
+      let msg = document.getElementById("customMsg").value || "¡Listo! Le diste flores 🌻";
+
+      document.getElementById("customMsg").style.display = "none";
+
+      messageEl.style.display = "block"; // 🔴 AHORA SE MUESTRA SOLO AQUÍ
+      typeWriter(msg + " — Para " + name, messageEl);
+
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3').play();
+    }
+
+    function resetFlowers() {
+      flowers.innerHTML = '';
+      messageEl.textContent = '';
+      messageEl.style.display = "none"; // 🔴 SE VUELVE A OCULTAR
+      document.getElementById("customMsg").style.display = "block";
+    }
+  </script>
+</body>
+</html>
