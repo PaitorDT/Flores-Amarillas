@@ -15,6 +15,7 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      padding: 10px;
     }
     .card {
       background: white;
@@ -23,15 +24,26 @@
       padding: 20px;
       text-align: center;
       max-width: 400px;
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
     svg {
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      max-width: 220px;
+      height: auto;
       display: block;
       margin: 0 auto;
+    }
+    input {
+      font-size: 1rem;
+      max-width: 200px;
+      text-align: center;
     }
     button {
       background: #facc15;
@@ -44,6 +56,8 @@
       font-weight: bold;
       margin: 5px;
       transition: transform 0.2s ease;
+      width: 100%;
+      max-width: 200px;
     }
     button:hover {
       background: #eab308;
@@ -56,12 +70,29 @@
       display: none;
       white-space: pre-line;
       max-width: 90%;
+      font-size: 1rem;
+      line-height: 1.4;
     }
     .buttons {
       display: flex;
       flex-direction: column;
       gap: 8px;
       margin-top: 10px;
+      width: 100%;
+      align-items: center;
+    }
+
+    /* 📱 Ajustes para móviles */
+    @media (max-width: 500px) {
+      .card {
+        padding: 15px;
+      }
+      h2 {
+        font-size: 1rem;
+      }
+      #message {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
@@ -69,7 +100,7 @@
   <div class="card">
     <h2>Flores Amarillas — Para 
       <input id="recipientInput" placeholder="Yacory" 
-      style="border:none;border-bottom:1px solid #ccc;text-align:center;">
+      style="border:none;border-bottom:1px solid #ccc;">
     </h2>
 
     <svg viewBox="0 0 200 200">
