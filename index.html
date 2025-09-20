@@ -70,7 +70,6 @@
       display: none;
       white-space: pre-line;
     }
-    /* Botón de control de música */
     #musicControl {
       position: absolute;
       top: 15px;
@@ -82,11 +81,12 @@
       cursor: pointer;
       box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
       font-size: 1.2rem;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <button id="musicControl" style="display:none;">🔊</button>
+  <button id="musicControl">🔊</button>
 
   <div class="card">
     <h2>Flores Amarillas 🌼</h2>
@@ -107,8 +107,9 @@
     const giftButton = document.getElementById('giftButton');
     const musicControl = document.getElementById('musicControl');
 
-    // Música Fairy Tale
+    // Música (empieza solo al hacer clic en el botón)
     const music = new Audio("https://cdn.pixabay.com/download/audio/2022/03/10/audio_4b2f004bb5.mp3?filename=fairy-tale-112194.mp3");
+    music.loop = true;
     music.volume = 0.6;
 
     setTimeout(() => giftButton.classList.add("show"), 1500);
@@ -143,8 +144,9 @@
         flowers.innerHTML = '';
         const positions = [[40,70],[100,50],[160,70]];
 
-        music.play();
-        musicControl.style.display = "block"; // Mostrar botón de control de música
+        // 👇 Ahora la música se reproduce porque hay interacción de clic
+        music.play().catch(err => console.log("El navegador bloqueó la música:", err));
+        musicControl.style.display = "block";
 
         positions.forEach(([x,y], i) => {
           const flower = createFlower(x, y);
@@ -173,7 +175,6 @@
       }, 600);
     }
 
-    // Botón para pausar/reanudar música
     musicControl.addEventListener("click", () => {
       if (music.paused) {
         music.play();
