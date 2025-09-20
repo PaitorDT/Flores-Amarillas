@@ -63,6 +63,13 @@
       50% { transform: rotateX(90deg) scale(1.1); opacity: 0.7; }
       100% { transform: rotateX(180deg) scale(0); opacity: 0; }
     }
+    #recipient {
+      display: none;
+      font-style: italic;
+      font-weight: bold;
+      color: #c71585;
+      margin-top: 10px;
+    }
     #message {
       margin-top: 15px;
       color: #a16207;
@@ -98,6 +105,11 @@
     </svg>
 
     <button id="giftButton">💌 Abrir tu regalo</button>
+
+    <!-- Destinatario -->
+    <p id="recipient"></p>
+
+    <!-- Mensaje -->
     <p id="message"></p>
   </div>
 
@@ -106,8 +118,9 @@
     const messageEl = document.getElementById('message');
     const giftButton = document.getElementById('giftButton');
     const musicControl = document.getElementById('musicControl');
+    const recipientEl = document.getElementById("recipient");
 
-    // Música (empieza solo al hacer clic en el botón)
+    // Música
     const music = new Audio("https://cdn.pixabay.com/download/audio/2022/03/10/audio_4b2f004bb5.mp3?filename=fairy-tale-112194.mp3");
     music.loop = true;
     music.volume = 0.6;
@@ -144,7 +157,6 @@
         flowers.innerHTML = '';
         const positions = [[40,70],[100,50],[160,70]];
 
-        // 👇 Ahora la música se reproduce porque hay interacción de clic
         music.play().catch(err => console.log("El navegador bloqueó la música:", err));
         musicControl.style.display = "block";
 
@@ -158,6 +170,10 @@
         });
 
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+
+        // Mostrar destinatario
+        recipientEl.textContent = "Para: Yacory";
+        recipientEl.style.display = "block";
 
         const text = "Quiero que sepas que para mi eres una chica genial, eres muy alegre y energética... me alegra el haber podido hablar contigo, aunque sea por este corto periodo, quiero desearte un feliz inicio de primavera, no te rindas y mantente determinada, te amo mucho... cuídate 💖";
         messageEl.textContent = "";
